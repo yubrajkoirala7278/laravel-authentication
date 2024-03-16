@@ -15,7 +15,7 @@ class UsersSeeder extends Seeder
     {
         // Delete the specified record if it exists
         User::where('email', 'yubrajkoirala7278@gmail.com')->delete();
-        
+        // add super admin 
         $user = new User();
         $user->name='Super_Admin';
         $user->email='yubrajkoirala7278@gmail.com';

@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('content')
-<div>Here will be the dashboard content</div>
+<div>Here will be the Admin dashboard content</div>
 @endsection
 
 @section('script')

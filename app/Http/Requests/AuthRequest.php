@@ -20,13 +20,24 @@ class AuthRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules()
     {
-        return [
-            'name'=>['required','string','min:2'],
-            'email'=>['required','string','email','max:100',Rule::unique('users')],
-            'password'=>['required','string','confirmed','min:6'],
-            'password_confirmation' => ['required','min:6','same:password'],
-        ];
+        if ($this->is('register')) {
+            // Validation rules for registration
+            return [
+                'name' => ['required', 'string', 'min:2'],
+                'email' => ['required', 'string', 'email', 'max:100', Rule::unique('users')],
+                'password' => ['required', 'string', 'confirmed', 'min:6'],
+                'password_confirmation' => ['required', 'min:6', 'same:password'],
+            ];
+        } elseif ($this->is('login')) {
+            // Validation rules for login
+            return [
+                'email' => ['required', 'string', 'email', 'max:100'],
+                'password' => ['required', 'string', 'min:6'],
+            ];
+        } else {
+            return [];
+        }
     }
 }

@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Register</title>
+  <title>@yield('title')</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -27,7 +27,18 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
   {{-- css --}}
-  @yield('css')
+  <style>
+    .password-field {
+        position: relative
+    }
+
+    .password-field .btn {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+    }
+
+</style>
 
   <!-- Custom css -->
   <link href="{{asset('admin/assets/css/style.css')}}" rel="stylesheet">
@@ -77,21 +88,48 @@
   {{-- script --}}
   @yield('script')
 
-  @if(session('success'))
+
   <script>
-      Toastify({
-            text: {!! json_encode(session('success')) !!},
-            duration: 3000,
-            newWindow: true,
-            close: true,
-            color:"white",
-            gravity: "bottom",
-            position: 'right', 
-            backgroundColor: "green",
-            stopOnFocus: true, 
-        }).showToast();
-  </script>
-  @endif
+    // =========toggle password==============
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.password-field').forEach(function(field) {
+            const passwordInput = field.querySelector('input[type="password"]');
+            const toggleButton = field.querySelector('.toggle-password');
+
+            toggleButton.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                toggleButton.querySelector('i').classList.toggle('fa-eye');
+                toggleButton.querySelector('i').classList.toggle('fa-eye-slash');
+            });
+        });
+    });
+    // ========================================
+
+</script>
+{{-- ====display success and error message===== --}}
+@if(session()->has('success') || session()->has('error'))
+<script>
+    @php
+        $message = session()->has('success') ? session('success') : session('error');
+        $type = session()->has('success') ? 'green' : 'red';
+    @endphp
+
+    Toastify({
+        text: {!! json_encode($message) !!},
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        color: "white",
+        gravity: "bottom",
+        position: 'right',
+        backgroundColor: "{{ $type }}",
+        stopOnFocus: true,
+    }).showToast();
+    // ===========================================
+</script>
+@endif
+
 
 </body>
 
