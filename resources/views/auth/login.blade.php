@@ -36,6 +36,11 @@ Login
             @endif
         </div>
 
+        {{-- reset forget password --}}
+        <div class="col-12">
+            <p class="small mb-0"><a href="/forget-password">Forget Password?</a></p>
+        </div>
+
         <div class="col-12">
             <button class="btn btn-primary w-100" type="submit">Login</button>
         </div>
