@@ -13,7 +13,7 @@ Reset Password
 
     <form class="row g-3 needs-validation" novalidate method="POST" action="{{route('resetPassword')}}">
         @csrf
-        <input type="hidden" name="id" value="{{$user[0]['id']}}">
+        <input type="hidden" name="email" value="{{$userEmail}}">
 
        {{-- password --}}
        <div class="col-12">

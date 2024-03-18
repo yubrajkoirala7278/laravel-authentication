@@ -139,11 +139,11 @@ class AuthController extends Controller
 
     // ============Reset Admin/User Password===================
     public function resetPasswordLoad(Request $request){
-        $resetData = PasswordReset::where('token',$request->token)->get();
-
-        if(isset($request->token) && count($resetData)>0){
-            $user=User::where('email',$resetData[0]['email'])->get();
-            return view('auth.resetPassword',compact('user'));
+        $resetDataEmail = PasswordReset::where('token', $request->token)->first()->email;
+        if(isset($request->token) && isset($resetDataEmail)){
+            $userEmail=User::where('email',$resetDataEmail)->first()->email;
+            return view('auth.resetPassword',compact('userEmail'));
+            
         }else{
             return view('error.404');
         }
@@ -154,8 +154,7 @@ class AuthController extends Controller
             'password' => ['required', 'string', 'confirmed', 'min:6'],
             'password_confirmation' => ['required', 'min:6', 'same:password'],
         ]);
-
-       $user= User::find($request->id);
+       $user = User::where('email', $request->email)->first();
        $user->password=Hash::make($request->password);
        $user->save();
 
