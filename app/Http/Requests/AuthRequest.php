@@ -36,6 +36,12 @@ class AuthRequest extends FormRequest
                 'email' => ['required', 'string', 'email', 'max:100'],
                 'password' => ['required', 'string', 'min:6'],
             ];
+        }elseif($this->is('reset-password')){
+             // Validation rules for password reset
+            return[
+                'password' => ['required', 'string', 'confirmed', 'min:6'],
+                'password_confirmation' => ['required', 'min:6', 'same:password'],
+            ];
         } else {
             return [];
         }
